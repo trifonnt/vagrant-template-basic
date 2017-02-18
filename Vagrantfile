@@ -35,29 +35,29 @@ Vagrant.configure("2") do |config|
 
 		echo Installing JDK 8
 		apt-get install -y default-jdk > /dev/null
-	SHELL
+SHELL
 
 	# Initial run script, executed as vagrant user
 	config.vm.provision "shell", privileged: false, inline: <<-SHELL
 #		echo Downloading ...
 #		wget -q http://mirrors.rackhosting.com/apache/hadoop/common/hadoop-2.7.1/hadoop-2.7.1.tar.gz
-	SHELL
+SHELL
 
 	# Run always
 	config.vm.provision "shell", privileged: false, run: "always", inline: <<-SHELL
 		echo Starting <SOME-SERVICE>
 #		hadoop-2.7.1/sbin/start-dfs.sh
-	SHELL
+SHELL
 
 
 	# Using vagrant-triggers plugin to stop <SERVICE> on halt and reload commands
 	config.trigger.before :halt do
-		info "Stopping service..."
+		info "Stopping <SOME-SERVICE>"
 #		run "vagrant ssh -c 'hadoop-2.7.1/sbin/stop-yarn.sh'"
 	end
 
 	config.trigger.before :reload do
-		info Stopping MR historyserver
+		info "Stopping <SOME-SERVICE>"
 #		run "vagrant ssh -c 'hadoop-2.7.1/sbin/stop-yarn.sh'"
 	end
 end
