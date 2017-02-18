@@ -46,19 +46,19 @@ SHELL
 	# Run always
 	config.vm.provision "shell", privileged: false, run: "always", inline: <<-SHELL
 		echo Starting [SOME-SERVICE-01]
-		info "Starting [SOME-SERVICE-02]"
+#		info "Starting [SOME-SERVICE-02]"
 #		hadoop-2.7.1/sbin/start-dfs.sh
 SHELL
 
 
 	# Using vagrant-triggers plugin to stop <SERVICE> on halt and reload commands
 	config.trigger.before :halt do
-		info "Stopping [SOME-SERVICE]"
+		echo "Stopping [SOME-SERVICE]"
 #		run "vagrant ssh -c 'hadoop-2.7.1/sbin/stop-yarn.sh'"
 	end
 
 	config.trigger.before :reload do
-		info "Stopping [SOME-SERVICE]"
+		echo "Stopping [SOME-SERVICE]"
 #		run "vagrant ssh -c 'hadoop-2.7.1/sbin/stop-yarn.sh'"
 	end
 end
