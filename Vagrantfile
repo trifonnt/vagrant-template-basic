@@ -31,15 +31,27 @@ Vagrant.configure("2") do |config|
 	# Initial run script, executed as root
 	config.vm.provision "shell", privileged: true, inline: <<-SHELL
 		echo Updating apt repository
-		apt-get update -y > /dev/null
+		apt-get update -y
 
-		echo Installing OpenJDK 7
-		apt-get install -y openjdk-7-jdk > /dev/null
-  SHELL
+		echo Installing JDK 8
+		apt-get install -y default-jdk > /dev/null
+	SHELL
 
 	# Initial run script, executed as vagrant user
 	config.vm.provision "shell", privileged: false, inline: <<-SHELL
 		# echo Downloading ...
 		# wget -q http://mirrors.rackhosting.com/apache/hadoop/common/hadoop-2.7.1/hadoop-2.7.1.tar.gz
 	SHELL
+
+
+	# Using vagrant-triggers plugin to stop <SERVICE> on halt and reload commands
+	config.trigger.before :halt do
+		info "Stopping service..."
+		run "vagrant ssh -c 'hadoop-2.7.1/sbin/stop-yarn.sh'"
+	end
+
+	config.trigger.before :reload do
+		info Stopping MR historyserver
+		run "vagrant ssh -c 'hadoop-2.7.1/sbin/stop-yarn.sh'"
+	end
 end
