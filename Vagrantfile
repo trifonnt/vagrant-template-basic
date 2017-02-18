@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
 		apt-get update -y
 
 		echo Installing JDK 8
-		apt-get install -y default-jdk > /dev/null
+		apt-get install -y default-jdk
 SHELL
 
 	# Initial run script, executed as vagrant user
