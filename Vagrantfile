@@ -43,6 +43,12 @@ Vagrant.configure("2") do |config|
 		# wget -q http://mirrors.rackhosting.com/apache/hadoop/common/hadoop-2.7.1/hadoop-2.7.1.tar.gz
 	SHELL
 
+	# Run always
+	config.vm.provision "shell", privileged: false, run: "always", inline: <<-SHELL
+		echo Starting <SOME-SERVICE>
+		# hadoop-2.7.1/sbin/start-dfs.sh
+	SHELL
+
 
 	# Using vagrant-triggers plugin to stop <SERVICE> on halt and reload commands
 	config.trigger.before :halt do
