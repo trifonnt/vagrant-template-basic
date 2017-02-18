@@ -6,10 +6,10 @@ Vagrant.configure("2") do |config|
 	config.vm.hostname = "test-01"
 	config.ssh.insert_key = true
 
-	#config.vm.network "forwarded_port", guest: 8080, host: 8080
-	#config.vm.network "forwarded_port", guest: 8020, host: 8020
+#	config.vm.network "forwarded_port", guest: 8080, host: 8080
+#	config.vm.network "forwarded_port", guest: 8020, host: 8020
 	# Create a private network, which allows host-only access to the machine using a specific IP.
-	#config.vm.network "private_network", ip: "192.168.33.10"
+#	config.vm.network "private_network", ip: "192.168.33.10"
 
 	config.vm.provider :virtualbox do |vb|
 		# Display the VirtualBox GUI when booting the machine
@@ -39,25 +39,25 @@ Vagrant.configure("2") do |config|
 
 	# Initial run script, executed as vagrant user
 	config.vm.provision "shell", privileged: false, inline: <<-SHELL
-		# echo Downloading ...
-		# wget -q http://mirrors.rackhosting.com/apache/hadoop/common/hadoop-2.7.1/hadoop-2.7.1.tar.gz
+#		echo Downloading ...
+#		wget -q http://mirrors.rackhosting.com/apache/hadoop/common/hadoop-2.7.1/hadoop-2.7.1.tar.gz
 	SHELL
 
 	# Run always
 	config.vm.provision "shell", privileged: false, run: "always", inline: <<-SHELL
 		echo Starting <SOME-SERVICE>
-		# hadoop-2.7.1/sbin/start-dfs.sh
+#		hadoop-2.7.1/sbin/start-dfs.sh
 	SHELL
 
 
 	# Using vagrant-triggers plugin to stop <SERVICE> on halt and reload commands
 	config.trigger.before :halt do
 		info "Stopping service..."
-		run "vagrant ssh -c 'hadoop-2.7.1/sbin/stop-yarn.sh'"
+#		run "vagrant ssh -c 'hadoop-2.7.1/sbin/stop-yarn.sh'"
 	end
 
 	config.trigger.before :reload do
 		info Stopping MR historyserver
-		run "vagrant ssh -c 'hadoop-2.7.1/sbin/stop-yarn.sh'"
+#		run "vagrant ssh -c 'hadoop-2.7.1/sbin/stop-yarn.sh'"
 	end
 end
