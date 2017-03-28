@@ -28,24 +28,24 @@ Vagrant.configure("2") do |config|
 		vb.customize ['modifyvm', :id, '--draganddrop', 'bidirectional']
 	end
 
-	# Initial run script, executed as root
+	# Initial run script, executed as ROOT user
 	config.vm.provision "shell", privileged: true, inline: <<-SHELL
-		echo Updating apt repository
+		echo "Updating apt repository"
 		apt-get update -y
 
-		echo Installing JDK 8
+		echo "Installing JDK 8"
 		apt-get install -y default-jdk
 SHELL
 
-	# Initial run script, executed as vagrant user
+	# Initial run script, executed as VAGRANT user
 	config.vm.provision "shell", privileged: false, inline: <<-SHELL
-#		echo Downloading ...
+#		echo "Downloading ..."
 #		wget -q http://mirrors.rackhosting.com/apache/hadoop/common/hadoop-2.7.1/hadoop-2.7.1.tar.gz
 SHELL
 
 	# Run always
 	config.vm.provision "shell", privileged: false, run: "always", inline: <<-SHELL
-		echo Starting [SOME-SERVICE-01]
+		echo "Starting [SOME-SERVICE-01]"
 #		info "Starting [SOME-SERVICE-02]"
 #		hadoop-2.7.1/sbin/start-dfs.sh
 SHELL
