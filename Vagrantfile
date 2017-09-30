@@ -24,8 +24,14 @@ Vagrant.configure("2") do |config|
 		vb.customize ["modifyvm", :id, "--vram", 128]
 		vb.customize ["modifyvm", :id, "--cpus", 2]
 		vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
-		vb.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
-		vb.customize ['modifyvm', :id, '--draganddrop', 'bidirectional']
+		vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+		vb.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
+
+		# Disable Remote Desktop Server
+		vb.customize ["modifyvm", :id, "--vrde", "off"]
+
+		# If using an SSD on the machine running the VM, uncomment the below
+		vb.customize ["storageattach", :id, "--storagectl", "SATA Controller", "--port", "0", "--nonrotational", "on"]
 	end
 
 	# Initial run script, executed as ROOT user
@@ -34,7 +40,7 @@ Vagrant.configure("2") do |config|
 		apt-get update -y
 
 		echo "Installing JDK 8"
-		apt-get install -y default-jdk
+		apt-get install -y openjdk-8-jdk
 SHELL
 
 	# Initial run script, executed as VAGRANT user
